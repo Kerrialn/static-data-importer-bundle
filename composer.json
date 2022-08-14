@@ -1,6 +1,7 @@
 {
-    "type": "project",
-    "license": "proprietary",
+    "name": "kerrialn/static-data-importer",
+    "description": "Generate entity objects from json, xml, csv files and persist to database",
+    "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
