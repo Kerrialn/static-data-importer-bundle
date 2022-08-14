@@ -1,5 +1,7 @@
 # Static Data Importer 
 
+A package for importing json, csv and/or xml directly into a database via an entity object. 
+
 1. **Install**: `composer require kerrial/static-data-importer`
 
 2. **Configure**: add json, xml or csv files to `./data` root directory in your project
