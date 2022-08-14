@@ -11,7 +11,7 @@ class SdiBundle extends AbstractBundle
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         // load an XML, PHP or Yaml file
-        $container->import('/../../../config/services.yaml');
+        $container->import(__DIR__.'/../../../../config/services.yaml');
 
         // you can also add or replace parameters and services
 //        $container->parameters()
