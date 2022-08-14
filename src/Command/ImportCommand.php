@@ -33,8 +33,7 @@ class ImportCommand extends Command
     private const IMPORT_COMPLETE = 'import complete';
 
     public function __construct(
-        private SerializerInterface    $serializer,
-        private EntityManagerInterface $entityManager
+        private SerializerInterface $serializer,
     )
     {
         parent::__construct();
@@ -59,11 +58,11 @@ class ImportCommand extends Command
 
             $entities = $entityDto->getDeserializeData();
             foreach ($entities as $entity) {
-                $this->entityManager->persist($entity);
+//                $this->entityManager->persist($entity);
             }
             $io->info(sprintf(self::ENTITY_IMPORT_SUCCESSFUL, count($entities), $entityDto->getEntityNamespace()));
         }
-        $this->entityManager->flush();
+//        $this->entityManager->flush();
 
         $io->success(self::IMPORT_COMPLETE);
         return Command::SUCCESS;

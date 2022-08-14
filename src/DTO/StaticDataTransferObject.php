@@ -3,8 +3,6 @@
 namespace App\DTO;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\ORM\Mapping\Entity;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -14,7 +12,6 @@ use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 class StaticDataTransferObject
@@ -24,12 +21,6 @@ class StaticDataTransferObject
     private string $entityNamespace;
 
     private SmartFileInfo $staticDataFile;
-
-    public function __construct(
-        private SerializerInterface $serializer
-    )
-    {
-    }
 
     /**
      * @return string
