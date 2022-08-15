@@ -40,7 +40,7 @@ class ImportCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument(self::COMMAND_ARG_DIR, InputArgument::OPTIONAL, 'directory of the files your want to import');
+        $this->addArgument(self::COMMAND_ARG_DIR, InputArgument::REQUIRED, 'directory of the files your want to import');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
