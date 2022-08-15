@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdi;
+namespace Kerrialn\Bundle\StaticDataImporterBundle;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;

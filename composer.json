@@ -1,5 +1,6 @@
 {
     "name": "kerrialn/static-data-importer",
+    "type": "symfony-bundle",
     "description": "Generate entity objects from json, xml, csv files and persist to database",
     "license": "MIT",
     "bin": [
@@ -24,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sdi\\": "src/"
+            "Kerrialn\\Bundle\\StaticDataImporterBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Kerrialn\\Bundle\\StaticDataImporterBundle\\Tests\\": "tests/"
         }
     },
     "config": {

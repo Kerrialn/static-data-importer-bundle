@@ -1,8 +1,8 @@
 <?php
 
-namespace Sdi\Command;
+namespace Kerrialn\Bundle\StaticDataImporterBundle\Command;
 
-use Sdi\DTO\StaticDataTransferObject;
+use Kerrialn\Bundle\StaticDataImporterBundle\Dto\StaticDataTransferObject;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdi\DTO;
+namespace Kerrialn\Bundle\StaticDataImporterBundle\Dto;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
