@@ -17,11 +17,7 @@ class StaticDataImporterBundle extends AbstractBundle
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $configDir =__DIR__.'/../../../src/config/services.xml';
-
-        if(is_dir($configDir) === false){
-            return;
-        }
+        $configDir =__DIR__.'/../config/services.yaml';
 
         $container->import($configDir);
     }
