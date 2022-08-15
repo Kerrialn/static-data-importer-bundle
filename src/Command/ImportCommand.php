@@ -33,7 +33,7 @@ class ImportCommand extends Command
     private const IMPORT_COMPLETE = 'import complete';
 
     public function __construct(
-//        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager
     )
     {
         parent::__construct();
