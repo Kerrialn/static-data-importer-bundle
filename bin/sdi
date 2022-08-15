@@ -4,14 +4,21 @@
 use Kerrialn\Bundle\StaticDataImporterBundle\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
-    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
+$autoloads = [
+    __DIR__ . '/../../../../vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php'
+];
+
+foreach ($autoloads as $autoload) {
+
+    if (is_file($autoload) === false) {
+        continue;
+    }
+
+    require_once $autoload;
 }
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-return function (array $context) {
-    $kernel = new Kernel('dev', 1);
-
-    return new Application($kernel);
-};
+$kernel = new Kernel('dev', 1);
+$application = new Application($kernel);
+$application->run();
