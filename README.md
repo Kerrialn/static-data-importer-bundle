@@ -1,6 +1,6 @@
 # Static Data Importer 
 
-A package for importing json, csv and/or xml directly into a database via an entity object. 
+A Symfony Bundle for importing json, csv and/or xml directly into a database via an entity object. 
 
 1. **Install**: `composer require kerrialn/static-data-importer`
 
