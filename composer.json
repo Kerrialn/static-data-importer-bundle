@@ -35,16 +35,11 @@
     },
     "config": {
         "allow-plugins": {
-            "symfony/flex": false,
+            "symfony/flex": true,
             "symfony/runtime": true
         }
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.45"
-    },
-    "extra": {
-        "runtime": {
-            "class": "Symfony\\Component\\Runtime\\GenericRuntime"
-        }
     }
 }
