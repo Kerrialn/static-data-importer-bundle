@@ -9,5 +9,6 @@ class StaticDataImporterExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        dd($configs);
     }
 }
