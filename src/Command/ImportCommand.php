@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -34,7 +33,7 @@ class ImportCommand extends Command
     private const IMPORT_COMPLETE = 'import complete';
 
     public function __construct(
-        private EntityManagerInterface $entityManager
+//        private EntityManagerInterface $entityManager
     )
     {
         parent::__construct();
