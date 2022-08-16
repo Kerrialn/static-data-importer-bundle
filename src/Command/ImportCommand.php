@@ -33,7 +33,7 @@ class ImportCommand extends Command
 
     private const STATIC_DATA_FILE_NOT_FOUND_ERROR = 'Static data file %s not found in %s';
 
-    private const ENTITY_IMPORT_SUCCESSFUL = '%s records of Entity type %s have been added';
+    private const ENTITY_IMPORT_SUCCESSFUL = '%s records of Entity type %s have been generated';
 
     private const IMPORT_COMPLETE = 'import complete';
 
