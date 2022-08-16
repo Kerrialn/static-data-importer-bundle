@@ -10,13 +10,9 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class StaticDataImporterBundle extends AbstractBundle
 {
-
-
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $configDir =__DIR__.'/../config/services.yaml';
-
+        $configDir = __DIR__ . '/../config/services.yaml';
         $container->import($configDir);
     }
-
 }

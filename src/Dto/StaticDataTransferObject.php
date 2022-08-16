@@ -22,65 +22,48 @@ class StaticDataTransferObject
 
     private SmartFileInfo $staticDataFile;
 
-    /**
-     * @return string
-     */
     public function getEntityName(): string
     {
         return $this->entityName;
     }
 
-    /**
-     * @param string $entityName
-     */
     public function setEntityName(string $entityName): void
     {
         $this->entityName = $entityName;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityNamespace(): string
     {
         return $this->entityNamespace;
     }
 
-    /**
-     * @param string $entityNamespace
-     */
     public function setEntityNamespace(string $entityNamespace): void
     {
         $this->entityNamespace = $entityNamespace;
     }
 
-    /**
-     * @return SmartFileInfo
-     */
     public function getStaticDataFile(): SmartFileInfo
     {
         return $this->staticDataFile;
     }
 
-    /**
-     * @param SmartFileInfo $staticDataFile
-     */
     public function setStaticDataFile(SmartFileInfo $staticDataFile): void
     {
         $this->staticDataFile = $staticDataFile;
     }
 
-    public function getDeserializeData() : mixed
+    public function getDeserializeData(): mixed
     {
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
-        $serializer = new Serializer([new ObjectNormalizer($classMetadataFactory), new GetSetMethodNormalizer(), new ArrayDenormalizer()],
+        $serializer = new Serializer(
+            [new ObjectNormalizer($classMetadataFactory), new GetSetMethodNormalizer(), new ArrayDenormalizer()],
             [new JsonEncoder(), new XmlEncoder(), new CsvEncoder()]
         );
 
         return $serializer->deserialize(
             $this->staticDataFile->getContents(),
-            $this->getEntityNamespace().'[]',
-            $this->staticDataFile->getExtension());
+            $this->getEntityNamespace() . '[]',
+            $this->staticDataFile->getExtension()
+        );
     }
-
 }

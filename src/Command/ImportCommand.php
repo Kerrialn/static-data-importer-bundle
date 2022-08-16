@@ -21,21 +21,25 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 )]
 class ImportCommand extends Command
 {
-
-
     private const COMMAND_ARG_DIR = 'directory';
-    private const ENTITY_PATH = __DIR__. '/../../../../../src/Entity';
+
+    private const ENTITY_PATH = __DIR__ . '/../../../../../src/Entity';
+
     private const INVALID_FILE_NAMING_ERROR = 'invalid static data file naming, please follow the convention "{entity name}_{order number}.{format}" eg. Blog_10.json, user_20.csv';
+
     private const ENTITY_NOT_FOUND_ERROR = 'Entity %s not found in %s';
+
     private const STATIC_DATA_FILE_EMPTY_SKIP_IMPORT = 'Skipping static data file %s. No content';
+
     private const STATIC_DATA_FILE_NOT_FOUND_ERROR = 'Static data file %s not found in %s';
+
     private const ENTITY_IMPORT_SUCCESSFUL = '%s records of Entity type %s have been added';
+
     private const IMPORT_COMPLETE = 'import complete';
 
     public function __construct(
-        private EntityManagerInterface $entityManager
-    )
-    {
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 
@@ -50,6 +54,10 @@ class ImportCommand extends Command
         $directory = $input->getArgument(self::COMMAND_ARG_DIR);
         $array = $this->getFiles($directory, $io);
 
+        if(is_array($array) === false){
+            return Command::FAILURE;
+        }
+
         foreach ($array as $data) {
             $entityDto = new StaticDataTransferObject();
             $entityDto->setEntityName($data['entityName']);
@@ -60,7 +68,7 @@ class ImportCommand extends Command
             foreach ($entities as $entity) {
                 $this->entityManager->persist($entity);
             }
-            $io->info(sprintf(self::ENTITY_IMPORT_SUCCESSFUL, count($entities), $entityDto->getEntityNamespace()));
+            $io->info(sprintf(self::ENTITY_IMPORT_SUCCESSFUL, is_countable($entities) ? count($entities) : 0, $entityDto->getEntityNamespace()));
         }
         $this->entityManager->flush();
 
@@ -86,25 +94,25 @@ class ImportCommand extends Command
 
             $entityName = ucfirst($nameParts[0]);
             $entityNamespace = 'App\\Entity\\' . $entityName;
-            $order = (int)$nameParts[1];
+            $order = (int) $nameParts[1];
             $entityPath = self::ENTITY_PATH . '/' . $entityName . '.php';
 
-            if ($fileSystem->exists($entityPath) === false) {
+            if (! $fileSystem->exists($entityPath)) {
                 $io->error(sprintf(self::ENTITY_NOT_FOUND_ERROR, $entityName, $entityPath));
                 return Command::FAILURE;
             }
 
-            if (is_int((int)$order) === false) {
+            if (! is_int((int) $order)) {
                 $io->error(self::INVALID_FILE_NAMING_ERROR);
                 return Command::FAILURE;
             }
 
-            if ($fileSystem->exists($dirFile) === false) {
+            if (! $fileSystem->exists($dirFile)) {
                 $io->error(sprintf(self::STATIC_DATA_FILE_NOT_FOUND_ERROR, $dirFile->getFilename(), $dirFile));
                 return Command::FAILURE;
             }
 
-            if($dirFile->getContents() === ''){
+            if ($dirFile->getContents() === '') {
                 $io->error(sprintf(self::STATIC_DATA_FILE_EMPTY_SKIP_IMPORT, $dirFile->getFilename()));
                 continue;
             }
