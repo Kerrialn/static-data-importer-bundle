@@ -1,5 +1,5 @@
 {
-  "name": "kerrialn/static-data-importer",
+  "name": "kerrialn/static-data-importer-bundle",
   "type": "symfony-bundle",
   "description": "generates entity objects from json, xml, csv files and persists to the database",
   "license": "MIT",
