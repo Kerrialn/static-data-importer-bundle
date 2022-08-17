@@ -33,19 +33,22 @@ class ImportCommand extends Command
 
     private const ENTITY_NOT_FOUND_ERROR = 'Entity %s not found in %s';
 
+    private const LOADING_ENTITY = 'preparing entity: %s';
+
     private const STATIC_DATA_FILE_EMPTY_SKIP_IMPORT = 'Skipping static data file %s. No content';
 
     private const STATIC_DATA_FILE_NOT_FOUND_ERROR = 'Static data file %s not found in %s';
 
-    private const ENTITY_IMPORT_SUCCESSFUL = '%s records of Entity type %s have been generated';
+    private const ENTITY_IMPORT_SUCCESSFUL = '%s records of type %s have been generated';
 
-    private const TOTAL_IMPORT_COUNT = '%s total records inserted';
+    private const TOTAL_IMPORT_COUNT = '%s records inserted';
 
     private const IMPORT_COMPLETE = 'import complete';
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager
-    ) {
+    )
+    {
         parent::__construct();
     }
 
@@ -62,22 +65,25 @@ class ImportCommand extends Command
         $hasOptionDump = $input->getOption(self::COMMAND_OPTION_DUMP);
         $array = $this->getFiles($directory, $io);
 
-        if(is_array($array) === false){
+        if (is_array($array) === false) {
             return Command::FAILURE;
         }
 
+        $totalCount = 0;
         foreach ($array as $data) {
             $entityDto = new StaticDataTransferObject();
             $entityDto->setEntityName($data['entityName']);
             $entityDto->setEntityNamespace($data['entityNamespace']);
             $entityDto->setStaticDataFile($data['file']);
 
+            $io->info(sprintf(self::LOADING_ENTITY, $entityDto->getEntityName()));
+
             $entities = $entityDto->getDeserializeData();
-            $totalCount = 0;
             foreach ($entities as $entity) {
+
                 $this->entityManager->persist($entity);
 
-                if($hasOptionDump){
+                if ($hasOptionDump) {
                     print_r($entity);
                 }
 
@@ -86,9 +92,9 @@ class ImportCommand extends Command
 
             $io->info(sprintf(self::ENTITY_IMPORT_SUCCESSFUL, is_countable($entities) ? count($entities) : 0, $entityDto->getEntityNamespace()));
             $this->entityManager->flush();
-            $io->info(sprintf(self::TOTAL_IMPORT_COUNT, $totalCount));
         }
 
+        $io->info(sprintf(self::TOTAL_IMPORT_COUNT, $totalCount));
         $io->success(self::IMPORT_COMPLETE);
         return Command::SUCCESS;
     }
@@ -101,9 +107,9 @@ class ImportCommand extends Command
 
         $files = [];
         foreach ($dirFiles as $dirFile) {
-            $file =new SmartFileInfo($dirFile->getRealPath());
+            $file = new SmartFileInfo($dirFile->getRealPath());
 
-            if(str_contains($file->getFilenameWithoutExtension(), 'SKIP')){
+            if (str_contains($file->getFilenameWithoutExtension(), 'SKIP')) {
                 continue;
             }
 
@@ -116,7 +122,7 @@ class ImportCommand extends Command
             }
 
             $entityName = ucfirst($nameParts[1]);
-            $order = (int) $nameParts[0];
+            $order = (int)$nameParts[0];
             $entityNamespace = 'App\\Entity\\' . $entityName;
             $entityPath = self::ENTITY_PATH . '/' . $entityName . '.php';
 
@@ -125,12 +131,12 @@ class ImportCommand extends Command
                 return Command::FAILURE;
             }
 
-            if (! is_int((int) $order)) {
+            if (!is_int((int)$order)) {
                 $io->error(self::INVALID_FILE_NAMING_ERROR);
                 return Command::FAILURE;
             }
 
-            if (! $fileSystem->exists($dirFile)) {
+            if (!$fileSystem->exists($dirFile)) {
                 $io->error(sprintf(self::STATIC_DATA_FILE_NOT_FOUND_ERROR, $dirFile->getFilename(), $dirFile));
                 return Command::FAILURE;
             }
