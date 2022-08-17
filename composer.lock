@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "889fe096bf8ed25f6fe63dffc000aaed",
+    "content-hash": "db673d6e746b113765aaa22f4224d792",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -4383,16 +4383,16 @@
         },
         {
             "name": "symplify/smart-file-system",
-            "version": "11.1.5",
+            "version": "10.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/smart-file-system.git",
-                "reference": "fab027c8135cde323e803353815f6414677dbf66"
+                "reference": "0b465fcf7490ac89708510551a044961b9124493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/fab027c8135cde323e803353815f6414677dbf66",
-                "reference": "fab027c8135cde323e803353815f6414677dbf66",
+                "url": "https://api.github.com/repos/symplify/smart-file-system/zipball/0b465fcf7490ac89708510551a044961b9124493",
+                "reference": "0b465fcf7490ac89708510551a044961b9124493",
                 "shasum": ""
             },
             "require": {
@@ -4402,35 +4402,36 @@
                 "symfony/finder": "^6.0"
             },
             "conflict": {
-                "symplify/astral": "<11.1.5",
-                "symplify/autowire-array-parameter": "<11.1.5",
-                "symplify/coding-standard": "<11.1.5",
-                "symplify/composer-json-manipulator": "<11.1.5",
-                "symplify/config-transformer": "<11.1.5",
-                "symplify/easy-ci": "<11.1.5",
-                "symplify/easy-coding-standard": "<11.1.5",
-                "symplify/easy-parallel": "<11.1.5",
-                "symplify/easy-testing": "<11.1.5",
-                "symplify/monorepo-builder": "<11.1.5",
-                "symplify/package-builder": "<11.1.5",
-                "symplify/php-config-printer": "<11.1.5",
-                "symplify/phpstan-extensions": "<11.1.5",
-                "symplify/phpstan-rules": "<11.1.5",
-                "symplify/rule-doc-generator": "<11.1.5",
-                "symplify/rule-doc-generator-contracts": "<11.1.5",
-                "symplify/skipper": "<11.1.5",
-                "symplify/symfony-static-dumper": "<11.1.5",
-                "symplify/symplify-kernel": "<11.1.5",
-                "symplify/vendor-patches": "<11.1.5"
+                "symplify/astral": "<10.3.3",
+                "symplify/autowire-array-parameter": "<10.3.3",
+                "symplify/coding-standard": "<10.3.3",
+                "symplify/composer-json-manipulator": "<10.3.3",
+                "symplify/config-transformer": "<10.3.3",
+                "symplify/easy-ci": "<10.3.3",
+                "symplify/easy-coding-standard": "<10.3.3",
+                "symplify/easy-parallel": "<10.3.3",
+                "symplify/easy-testing": "<10.3.3",
+                "symplify/monorepo-builder": "<10.3.3",
+                "symplify/neon-config-dumper": "<10.3.3",
+                "symplify/package-builder": "<10.3.3",
+                "symplify/php-config-printer": "<10.3.3",
+                "symplify/phpstan-extensions": "<10.3.3",
+                "symplify/phpstan-rules": "<10.3.3",
+                "symplify/rule-doc-generator": "<10.3.3",
+                "symplify/rule-doc-generator-contracts": "<10.3.3",
+                "symplify/skipper": "<10.3.3",
+                "symplify/symfony-static-dumper": "<10.3.3",
+                "symplify/symplify-kernel": "<10.3.3",
+                "symplify/vendor-patches": "<10.3.3"
             },
             "require-dev": {
-                "nette/finder": "^2.5.3",
-                "phpunit/phpunit": "^9.5.21"
+                "nette/finder": "^2.5",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "11.2-dev"
+                    "dev-main": "10.4-dev"
                 }
             },
             "autoload": {
@@ -4444,7 +4445,7 @@
             ],
             "description": "Sanitized FileInfo with safe getRealPath() and other handy methods",
             "support": {
-                "source": "https://github.com/symplify/smart-file-system/tree/11.1.5"
+                "source": "https://github.com/symplify/smart-file-system/tree/10.3.3"
             },
             "funding": [
                 {
@@ -4456,7 +4457,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-16T08:55:27+00:00"
+            "time": "2022-06-13T14:03:57+00:00"
         }
     ],
     "packages-dev": [],
