@@ -23,6 +23,10 @@ class ImportCommand extends Command
 {
     private const COMMAND_ARG_DIR = 'directory';
 
+    private const COMMAND_OPTION_DUMP = 'dump';
+
+    private const COMMAND_OPTION_DUMP_SHORT = 'd';
+
     private const ENTITY_PATH = __DIR__ . '/../../../../../src/Entity';
 
     private const INVALID_FILE_NAMING_ERROR = 'invalid static data file naming, please follow the convention "{entity name}_{order number}.{format}" eg. Blog_10.json, user_20.csv';
@@ -35,6 +39,8 @@ class ImportCommand extends Command
 
     private const ENTITY_IMPORT_SUCCESSFUL = '%s records of Entity type %s have been generated';
 
+    private const TOTAL_IMPORT_COUNT = '%s total records inserted';
+
     private const IMPORT_COMPLETE = 'import complete';
 
     public function __construct(
@@ -46,12 +52,14 @@ class ImportCommand extends Command
     protected function configure(): void
     {
         $this->addArgument(self::COMMAND_ARG_DIR, InputArgument::REQUIRED, 'directory of the files your want to import');
+        $this->addOption(self::COMMAND_OPTION_DUMP, self::COMMAND_OPTION_DUMP_SHORT);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $directory = $input->getArgument(self::COMMAND_ARG_DIR);
+        $hasOptionDump = $input->getOption(self::COMMAND_OPTION_DUMP);
         $array = $this->getFiles($directory, $io);
 
         if(is_array($array) === false){
@@ -65,12 +73,21 @@ class ImportCommand extends Command
             $entityDto->setStaticDataFile($data['file']);
 
             $entities = $entityDto->getDeserializeData();
+            $totalCount = 0;
             foreach ($entities as $entity) {
                 $this->entityManager->persist($entity);
+
+                if($hasOptionDump){
+                    print_r($entity);
+                }
+
+                $totalCount++;
             }
+
             $io->info(sprintf(self::ENTITY_IMPORT_SUCCESSFUL, is_countable($entities) ? count($entities) : 0, $entityDto->getEntityNamespace()));
+            $this->entityManager->flush();
+            $io->info(sprintf(self::TOTAL_IMPORT_COUNT, $totalCount));
         }
-        $this->entityManager->flush();
 
         $io->success(self::IMPORT_COMPLETE);
         return Command::SUCCESS;
@@ -84,6 +101,12 @@ class ImportCommand extends Command
 
         $files = [];
         foreach ($dirFiles as $dirFile) {
+            $file =new SmartFileInfo($dirFile->getRealPath());
+
+            if(str_contains($file->getFilenameWithoutExtension(), 'SKIP')){
+                continue;
+            }
+
             $filename = $dirFile->getFilenameWithoutExtension();
             $nameParts = explode('_', $filename);
 
@@ -92,12 +115,12 @@ class ImportCommand extends Command
                 return Command::FAILURE;
             }
 
-            $entityName = ucfirst($nameParts[0]);
+            $entityName = ucfirst($nameParts[1]);
+            $order = (int) $nameParts[0];
             $entityNamespace = 'App\\Entity\\' . $entityName;
-            $order = (int) $nameParts[1];
             $entityPath = self::ENTITY_PATH . '/' . $entityName . '.php';
 
-            if (! $fileSystem->exists($entityPath)) {
+            if ($fileSystem->exists($entityPath) === false) {
                 $io->error(sprintf(self::ENTITY_NOT_FOUND_ERROR, $entityName, $entityPath));
                 return Command::FAILURE;
             }
@@ -117,10 +140,11 @@ class ImportCommand extends Command
                 continue;
             }
 
+
             $files[$order] = [
                 'entityName' => $entityName,
                 'entityNamespace' => $entityNamespace,
-                'file' => new SmartFileInfo($dirFile->getRealPath()),
+                'file' => $file
             ];
         }
         ksort($files, SORT_NUMERIC);

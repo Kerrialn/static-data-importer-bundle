@@ -55,9 +55,12 @@ class StaticDataTransferObject
     public function getDeserializeData(): mixed
     {
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+        $normalizers = [new ObjectNormalizer( classMetadataFactory: $classMetadataFactory), new GetSetMethodNormalizer(), new ArrayDenormalizer()];
+        $encoders = [new JsonEncoder(), new XmlEncoder(), new CsvEncoder()];
+
         $serializer = new Serializer(
-            [new ObjectNormalizer($classMetadataFactory), new GetSetMethodNormalizer(), new ArrayDenormalizer()],
-            [new JsonEncoder(), new XmlEncoder(), new CsvEncoder()]
+            normalizers: $normalizers,
+            encoders: $encoders
         );
 
         return $serializer->deserialize(
