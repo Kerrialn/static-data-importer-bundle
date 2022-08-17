@@ -37,11 +37,5 @@
       "symfony/flex": true,
       "symfony/runtime": true
     }
-  },
-  "require-dev": {
-    "symfony/maker-bundle": "^1.45",
-    "rector/rector": "^0.13.10",
-    "symplify/easy-coding-standard": "^11.1",
-    "phpstan/phpstan": "^1.8"
   }
 }
