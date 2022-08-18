@@ -1,6 +1,6 @@
 # Static Data Importer Bundle
 
-A Symfony Bundle for importing json, csv and/or xml directly into a database via an entity object. 
+A Symfony CLI Bundle for importing json, csv and/or xml directly into a database via an entity object. 
 
 **Install**: 
 ```bash 
