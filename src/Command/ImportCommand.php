@@ -29,7 +29,7 @@ class ImportCommand extends Command
 
     private const ENTITY_PATH = __DIR__ . '/../../../../../src/Entity';
 
-    private const INVALID_FILE_NAMING_ERROR = 'invalid static data file naming, please follow the convention "{entity name}_{order number}.{format}" eg. Blog_10.json, user_20.csv';
+    private const INVALID_FILE_NAMING_ERROR = 'invalid static data file naming, please follow the convention "{order number}_{entity name}.{format}" eg. 10_Blog.json, 20_user.csv';
 
     private const ENTITY_NOT_FOUND_ERROR = 'Entity %s not found in %s';
 
@@ -122,7 +122,7 @@ class ImportCommand extends Command
             }
 
             $entityName = ucfirst($nameParts[1]);
-            $order = (int)$nameParts[0];
+            $order = $nameParts[0];
             $entityNamespace = 'App\\Entity\\' . $entityName;
             $entityPath = self::ENTITY_PATH . '/' . $entityName . '.php';
 
@@ -131,12 +131,12 @@ class ImportCommand extends Command
                 return Command::FAILURE;
             }
 
-            if (!is_int((int)$order)) {
+            if (is_int((int)$order) === false) {
                 $io->error(self::INVALID_FILE_NAMING_ERROR);
                 return Command::FAILURE;
             }
 
-            if (!$fileSystem->exists($dirFile)) {
+            if ($fileSystem->exists($dirFile) === false) {
                 $io->error(sprintf(self::STATIC_DATA_FILE_NOT_FOUND_ERROR, $dirFile->getFilename(), $dirFile));
                 return Command::FAILURE;
             }
