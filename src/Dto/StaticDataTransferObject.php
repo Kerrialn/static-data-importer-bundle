@@ -3,6 +3,9 @@
 namespace Kerrialn\Bundle\StaticDataImporterBundle\Dto;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\ORM\EntityManagerInterface;
+use Kerrialn\Bundle\StaticDataImporterBundle\Normalizer\EntityNormalizer;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -16,11 +19,19 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 class StaticDataTransferObject
 {
+
+
     private string $entityName;
 
     private string $entityNamespace;
 
     private SmartFileInfo $staticDataFile;
+
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    )
+    {
+    }
 
     public function getEntityName(): string
     {
@@ -55,7 +66,12 @@ class StaticDataTransferObject
     public function getDeserializeData(): mixed
     {
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
-        $normalizers = [new ObjectNormalizer( classMetadataFactory: $classMetadataFactory), new GetSetMethodNormalizer(), new ArrayDenormalizer()];
+        $normalizers = [new ObjectNormalizer(
+            classMetadataFactory: $classMetadataFactory,
+            propertyTypeExtractor: new ReflectionExtractor()),
+            new ArrayDenormalizer(),
+            new EntityNormalizer($this->entityManager)
+        ];
         $encoders = [new JsonEncoder(), new XmlEncoder(), new CsvEncoder()];
 
         $serializer = new Serializer(
