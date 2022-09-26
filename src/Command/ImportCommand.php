@@ -71,7 +71,7 @@ class ImportCommand extends Command
 
         $totalCount = 0;
         foreach ($array as $data) {
-            $entityDto = new StaticDataTransferObject();
+            $entityDto = new StaticDataTransferObject($this->entityManager);
             $entityDto->setEntityName($data['entityName']);
             $entityDto->setEntityNamespace($data['entityNamespace']);
             $entityDto->setStaticDataFile($data['file']);
